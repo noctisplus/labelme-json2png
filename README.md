@@ -19,8 +19,9 @@ A notebook aimed to converge json file to several masks in png file
 【遇到问题】： 在这里，遇到的第一个问题：labelme标注出来的是只有一个json文件，这个好解决，我们的目的是得到标记的数据，json对我们来说，最终需要转换为单通道的图像（png），而且最好是每个标注的mask都能有单独的png图像，而如果采用这篇博文的做法https://blog.csdn.net/shwan_ma/article/details/77823281v，最终得到的是如下图的结果，从结果来看不是我们期望的。
 
 例如我的文件名是micro，那么在命令行输入：
-
+'''
 labelme_json_to_dataset micro.json
+'''
 
 运行过程：
 注意在运行之前应当切换到labelme的环境中
