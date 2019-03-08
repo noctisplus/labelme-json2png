@@ -64,12 +64,15 @@ from labelme.utils import image
 我们尝试在库文件当中寻找这个文件：
 
 ![github](/img/4.png)
+
 打开后：
 
 ![github](/img/5.png)
+
 image.py当中的内容是这样的：
 
 ![github](/img/6.png)
+
 作用是解析原图片数据，并以array形式返回。
 
 有些博客当中的函数是img_b64_to_array，怀疑是因为不同的labelme版本导致。
@@ -79,7 +82,9 @@ image.py当中的内容是这样的：
 data = json.load(open(json_file)) # 加载json文件
 </pre></code>
 shape.py当中的内容：
+
 ![github](/img/7.png)
+
 作用是解析shapes字段信息，最后返回的lbl是mask，而label_name_to_value是对应的label。
 
 为了保存mask信息与对应的label，则有：
@@ -104,6 +109,7 @@ plt.imshow(mask[:,:,0],'gray')
 </pre></code>
 
 ![github](/img/8.png)
+
 这个报错“TypeError: list indices must be integers or slices, not tuple”，意思是我们需要转换一下，不能用tuple的格式，所以有：
 <pre><code>
 mask=np.asarray(mask,np.uint8)
@@ -113,11 +119,14 @@ mask=np.asarray(mask,np.uint8)
 ![github](/img/9.png)
 不对，好像有点不太对劲，对比一下原图（含标注）：
 
+![github](/img/10.png)
+
 有没有发现有什么问题？！是的，方向不太对！
 
 正确的输出应当是：
 
-![github](/img/10.png)
+![github](/img/11.png)
+
 发现问题了吗？我们应该逆时针旋转90°！因此，将mask逆时针旋转90°的操作是必须的。故而应当改为：
 <pre><code>
 mask=np.transpose(np.asarray(mask,np.uint8),[1,2,0])
@@ -129,7 +138,8 @@ import cv2
 cv2.imwrite("mask1111.png", mask[:,:,0])
 </pre></code>
 
-![github](/img/11.png)
+![github](/img/12.png)
+
 可以看到一片漆黑，果然是因为像素取值过低导致的，虽然背景的像素取值是0，不过Mask也只不过是1,2,3,4，所以最好的思路应当是将Mask进行二值化处理！
 
 这里二值化处理的目的主要是为了可视化Mask，我个人认为对于实际训练的时候的影响是没有的：
@@ -139,7 +149,8 @@ cv2.imwrite("mask_1111_real.png", im_at_fixed)
 </pre></code>
 最终效果：
 
-![github](/img/12.png)
+![github](/img/13.png)
+
 当然了，mask可不止这一个，得全都输出出来，对吧？
 <pre><code>
 for i in range(0,len(class_id)):
@@ -148,5 +159,6 @@ for i in range(0,len(class_id)):
 </pre></code>
 看看最终结果：
 
-![github](/img/13.png)
+![github](/img/14.png)
+
 还是比较理想的吧，所有Mask都分别输出了。输出png的任务基本完成
