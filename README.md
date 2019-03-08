@@ -1,5 +1,7 @@
 # labelme-json2png
 A notebook aimed to converge json file to several masks in png file
+All codes corresponded are in the notebook!
+
 深度学习的标注工具很多，其中labelme很多人都用过。很简单，但是标注之后需要的后处理操作比较繁琐，因此有许多人觉得也不是那么好用。因此，这里稍微分享一下我自己制作数据集的时候如何将json文件提取出png格式的方法吧。
 
 至于labelme具体怎么安装和使用，
